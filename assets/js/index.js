@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     let epiData = [
+
       {
         id: 1,
         nome: 'Capacete',
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quantidade: 100,
         estoqueMinimo: 50
       },
+
       {
         id: 2,
         nome: 'Luva Nitrílica',
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         id: 3,
-        nome: 'Protetor Auricular',
+        nome: 'Protetor de ouvi.',
         categoria: 'Audicao',
         lote: 'pa-3301',
         validade: getDateFromToday(365),
@@ -60,12 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const vencendoEl = document.querySelector('.summary-cards .card:nth-child(3) h2');
     const estoqueBaixoEl = document.querySelector('.summary-cards .card:nth-child(4) h2');
 
-    // === INÍCIO: NOVOS SELETORES DO MODAL ===
+    // Modal
     const novoEpiBtn = document.getElementById('btn-novo-epi');
     const modal = document.getElementById('novoEpiModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const cancelModalBtn = document.getElementById('cancelModalBtn');
     const novoEpiForm = document.getElementById('novoEpiForm');
+
+    // === INÍCIO: NOVO SELETOR DE PDF ===
+    const exportPdfBtn = document.getElementById('btn-export-pdf');
+    // === FIM: NOVO SELETOR DE PDF ===
 
 
     // --- FUNÇÕES DE LÓGICA ---
@@ -155,7 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    
+    // --- FUNÇÕES DE EVENTOS ---
+
+    // Modal
     const openModal = () => {
         modal.classList.add('active');
     };
@@ -167,10 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleFormSubmit = (event) => {
         event.preventDefault(); 
-
-        
         const newItem = {
-            id: Date.now(), // Gera um ID único simples
+            id: Date.now(),
             nome: document.getElementById('nome').value,
             categoria: document.getElementById('categoria').value,
             lote: document.getElementById('lote').value,
@@ -178,26 +184,18 @@ document.addEventListener('DOMContentLoaded', () => {
             quantidade: parseInt(document.getElementById('quantidade').value),
             estoqueMinimo: parseInt(document.getElementById('estoqueMinimo').value)
         };
-
-        
         epiData.unshift(newItem); 
-
-        
         const searchTerm = searchInput.value.toLowerCase();
         if(searchTerm) {
-            
             handleSearch({ target: searchInput });
         } else {
-            
             renderEpiList(epiData);
         }
         updateSummaryCards();
-
-        
         closeModal();
     };
     
-
+    // Busca
     const handleSearch = (event) => {
         const searchTerm = event.target.value.toLowerCase();
         
@@ -210,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderEpiList(filteredItems);
     };
 
+    // Ações do Item (Editar/Excluir)
     const handleItemClick = (event) => {
         const target = event.target;
         
@@ -220,8 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (confirm('Tem certeza que deseja excluir este item?')) {
                 epiData = epiData.filter(item => item.id !== itemId);
-                
-                
                 handleSearch({ target: searchInput });
                 updateSummaryCards();
             }
@@ -235,38 +232,94 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
+    // Ações do Cabeçalho (Excel, etc)
     const handleHeaderClick = (event) => {
-        
-        if (event.target.textContent.includes('PDF')) {
-            alert('Função "Exportar PDF"\n(Não implementado)');
-        }
+        // A lógica do PDF foi movida para seu próprio listener
         if (event.target.textContent.includes('Excel')) {
             alert('Função "Exportar Excel"\n(Não implementado)');
         }
     };
 
-    
+    // === INÍCIO: NOVA FUNÇÃO DE EXPORTAR PDF ===
+    const handleExportPDF = () => {
+        // Pega a classe jsPDF da janela global (window)
+        const { jsPDF } = window.jspdf;
 
-    
+        // Cria um novo documento PDF
+        const doc = new jsPDF();
+        
+        // Define o título do documento
+        doc.setFontSize(18);
+        doc.text("Relatório de EPIs - APPARATUS", 14, 22);
+        doc.setFontSize(12);
+        doc.text(`Data de geração: ${formatDateBR(new Date().toISOString().split('T')[0])}`, 14, 28);
+        doc.setFontSize(12);
+        doc.text("Lista completa de EPIs cadastrados no sistema.", 14, 34);
+
+        // Define os cabeçalhos da tabela
+        const tableColumn = ["Nome", "Categoria", "Lote", "Validade", "Qtd.", "Status"];
+        
+        // Mapeia os dados do 'epiData' para o formato de linhas da tabela
+        const tableRows = [];
+        epiData.forEach(item => {
+            const status = getEpiStatus(item);
+            const itemData = [
+                item.nome,
+                item.categoria,
+                item.lote,
+                formatDateBR(item.validade),
+                item.quantidade,
+                status ? status.text : 'OK' // Adiciona o status (Vencido, etc.) ou 'OK'
+            ];
+            tableRows.push(itemData);
+        });
+
+        // Adiciona a tabela ao documento
+        // 'autoTable' é a função do plugin que importamos
+        doc.autoTable({
+            head: [tableColumn],
+            body: tableRows,
+            startY: 30, // Posição Y onde a tabela deve começar
+            theme: 'striped', // 'striped', 'grid', 'plain'
+            headStyles: {
+                fillColor: [0, 123, 255] // Cor de fundo do cabeçalho (azul)
+            }
+        });
+
+        // Gera o nome do arquivo com a data atual
+        const date = new Date();
+        const dateStr = `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+        const fileName = `relatorio_epis_${dateStr}.pdf`;
+
+        // Salva o arquivo PDF (inicia o download)
+        doc.save(fileName);
+    };
+    // === FIM: NOVA FUNÇÃO DE EXPORTAR PDF ===
+
+
+    // --- INICIALIZAÇÃO ---
+
+    // Ouvintes de eventos
     searchInput.addEventListener('input', handleSearch);
     itemListContainer.addEventListener('click', handleItemClick);
     document.querySelector('header').addEventListener('click', handleHeaderClick);
 
-    
+    // Modal
     novoEpiBtn.addEventListener('click', openModal);
     closeModalBtn.addEventListener('click', closeModal);
     cancelModalBtn.addEventListener('click', closeModal);
     novoEpiForm.addEventListener('submit', handleFormSubmit);
-
-    
     modal.addEventListener('click', (event) => {
         if (event.target === modal) {
             closeModal();
         }
     });
-   
 
-    
+    // === INÍCIO: NOVO OUVINTE DO PDF ===
+    exportPdfBtn.addEventListener('click', handleExportPDF);
+    // === FIM: NOVO OUVINTE DO PDF ===
+
+    // Renderização inicial
     renderEpiList(epiData);
     updateSummaryCards();
 });

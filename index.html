@@ -17,7 +17,7 @@
                 APPARATUS
             </div>
             <div class="header-actions">
-                <button class="btn btn-secondary">
+                <button class="btn btn-secondary" id="btn-export-pdf">
                     <i>📄</i> Exportar PDFf
                 </button>
                 <button class="btn btn-secondary">
@@ -94,6 +94,8 @@
                 </section>
         </main>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="assets/js/index.js" defer></script>
 
     <div id="novoEpiModal" class="modal-overlay">
@@ -105,8 +107,8 @@
             
             <form id="novoEpiForm">
                 <div class="form-group">
-                    <label for="nome">Nome do EPI</label>
-                    <input type="text" id="nome" required>
+                    <label for="nome">Nome do EPI (Até 10 caracteres)</label>
+                    <input type="text" id="nome" required maxlength="10">
                 </div>
                 
                 <div class="form-group">
