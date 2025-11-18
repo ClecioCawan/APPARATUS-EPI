@@ -1,0 +1,89 @@
+.hero {
+  width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.login-image {
+  background-image: url(../img/epis.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.login-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fe8700;
+  color: white;
+}
+
+.login-form form {
+  width: 50%;
+}
+
+.login-form form > div {
+  display: flex;
+  flex-direction: column;
+  margin-block: 30px;
+}
+
+.login-form .password {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.password div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.password label,
+.password input {
+  cursor: pointer;
+}
+
+.password a {
+  color: white;
+  text-decoration: none;
+}
+
+.login-form input {
+  border: none;
+  width: 100%;
+  padding: 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  letter-spacing: 3px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+
+.login-form button {
+  cursor: pointer;
+  width: 100%;
+  background-color: #192531;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 20px;
+  border-radius: 30px;
+  letter-spacing: 6px;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+.login-form button:hover {
+  background-color: teal;
+}
+
+#remember {
+  width: auto;
+  padding: 10px;
+}
