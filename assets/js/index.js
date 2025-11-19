@@ -13,43 +13,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let epiData = [
 
-      {
-        id: 1,
-        nome: 'Capacete',
-        categoria: 'Cabeca',
-        lote: 'cp-122025',
-        validade: '2024-10-01',
-        quantidade: 100,
-        estoqueMinimo: 50
-      },
+    //   {
+    //     id: 1,
+    //     nome: 'Capacete',
+    //     categoria: 'Cabeca',
+    //     lote: 'cp-122025',
+    //     validade: '2024-10-01',
+    //     quantidade: 100,
+    //     estoqueMinimo: 50
+    //   },
 
-      {
-        id: 2,
-        nome: 'Luva Nitrílica',
-        categoria: 'Maos',
-        lote: 'ln-99874',
-        validade: getDateFromToday(15),
-        quantidade: 300,
-        estoqueMinimo: 100
-      },
-      {
-        id: 3,
-        nome: 'Protetor de ouvi.',
-        categoria: 'Audicao',
-        lote: 'pa-3301',
-        validade: getDateFromToday(365),
-        quantidade: 40,
-        estoqueMinimo: 50
-      },
-      {
-        id: 4,
-        nome: 'Óculos de Proteção',
-        categoria: 'Olhos',
-        lote: 'op-776',
-        validade: getDateFromToday(200),
-        quantidade: 100,
-        estoqueMinimo: 50
-      }
+    //   {
+    //     id: 2,
+    //     nome: 'Luva Nitrílica',
+    //     categoria: 'Maos',
+    //     lote: 'ln-99874',
+    //     validade: getDateFromToday(15),
+    //     quantidade: 300,
+    //     estoqueMinimo: 100
+    //   },
+    //   {
+    //     id: 3,
+    //     nome: 'Protetor de ouvi.',
+    //     categoria: 'Audicao',
+    //     lote: 'pa-3301',
+    //     validade: getDateFromToday(365),
+    //     quantidade: 40,
+    //     estoqueMinimo: 50
+    //   },
+    //   {
+    //     id: 4,
+    //     nome: 'Óculos de Proteção',
+    //     categoria: 'Olhos',
+    //     lote: 'op-776',
+    //     validade: getDateFromToday(200),
+    //     quantidade: 100,
+    //     estoqueMinimo: 50
+    //   }
     ];
 
     // --- SELETORES DE ELEMENTOS ---
