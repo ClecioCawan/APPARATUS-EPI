@@ -101,3 +101,8 @@
   align-items: center;
   gap: 10px;
 }
+
+.logo img{
+  height: 70px;
+  width: 70px;
+}
