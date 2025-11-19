@@ -14,11 +14,12 @@
 }
 
 .login-form {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: #fe8700;
+  background-image: linear-gradient(45deg, #fe8700, rgb(248, 185, 113));
   color: white;
 }
 
@@ -26,7 +27,7 @@
   width: 50%;
 }
 
-.login-form form > div {
+.login-form form>div {
   display: flex;
   flex-direction: column;
   margin-block: 30px;
@@ -86,4 +87,17 @@
 #remember {
   width: auto;
   padding: 10px;
+}
+
+
+.logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px 25px;
+  color: white;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
