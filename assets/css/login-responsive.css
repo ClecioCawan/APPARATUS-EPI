@@ -3,7 +3,13 @@
     grid-template-columns: 1fr;
     grid-template-rows: 2fr 1fr;
   }
+  .login-form{
+    padding-bottom: 40px;
+  }
   .login-form form {
     width: 80%;
+  }
+  .logo {
+    position: relative;
   }
 }

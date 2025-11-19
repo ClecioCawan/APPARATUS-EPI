@@ -1,0 +1,7 @@
+@media (max-width: 750px) {
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+}
